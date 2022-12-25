@@ -5579,7 +5579,9 @@ w32tm /config /reliable:yes
 
 function activeServer2019(){
 dism /online /get-targeteditions
-dism /online /set-edition:serverstandard /productkey: N69G4-B89J2-4GBF4-WWYCC-J464C /accepteula
+dism /online /set-edition: serverstandard /productkey : N69G4-B89J2-4G8F4-WWYCC-J464C /accepteula
+cd \SERVERS
+start active2019.cmd
 }
 
 #endregion
