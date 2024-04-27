@@ -11,7 +11,7 @@ $PathToBackupFiles = "c:\Util\BACKUP"
 $PathToDelete = "c:\Util\BACKUP\"
 $MsgSource = "VMS--(SOURCE-FILES)--(ARC-AR)-- Backup (FAIL)", "----NO STOP-TI----"
 $MsgDestiny = "VMS--(DESTINY-FILES)--(ARC-AR)-- Backup (FAIL)", "----NO STOP-TI----"
-$daysBack = 8 #total de dias que será preservado de backups
+$daysBack = 8 #total de dias que serï¿½ preservado de backups
 
 Function TotalFilesToBackup{
 return CalcFilesSize -pathToFile $PathVmsToBackupCalculateAmount -extension $ExtensionFilesToCalculateAmount
@@ -57,3 +57,4 @@ BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 CheckDestiny
 
 Invoke-Command{shutdown -s -f -t 120}
+Write-Host("Test of hash")
