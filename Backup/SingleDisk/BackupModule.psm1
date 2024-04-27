@@ -116,7 +116,7 @@ Function DeleteOlderFiles {
 
  $result = Get-ChildItem  -Path $PathFilesToDelete -Directory | where {$_.CreationTime -le $(get-date).AddDays(-$daysBack)} | Remove-Item -recurse  
  $result
-  Write-host($result)
+ #Write-host($result)
     
 }
 Export-ModuleMember -Function DeleteOlderFiles
