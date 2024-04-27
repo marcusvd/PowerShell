@@ -26,24 +26,22 @@ Export-ModuleMember -Function SendMail
 
 Function VmsCheckExists([string[]]$paths) { 
 
-$resultBoolFalse = @()
+    $resultBoolFalse = @()
 
-$paths.ForEach({
-           if(!(Test-Path($_)))
-           {
-            $resultBoolFalse += [System.IO.File]::Exists($_)
-           }
+    $paths.ForEach({
+            if (!(Test-Path($_))) {
+                $resultBoolFalse += [System.IO.File]::Exists($_)
+            }
         })
     
-    if($resultBoolFalse.Count -gt 0)
-    {
-     Write-Host("Fail")
-     #SendMail($false)
-     return $false
+    if ($resultBoolFalse.Count -gt 0) {
+        Write-Host("Fail")
+        #SendMail($false)
+        return $false
     }
 
-   Write-Host("Success")
-   return $true
+    Write-Host("Success")
+    return $true
    
 }
 #VmsCheckExists -paths $VmsPaths
@@ -65,25 +63,25 @@ Export-ModuleMember -Function CheckFreeSpaceDisk
 #endregion
 
 #region CalcFilesSize
-Function CalcFilesSize{
-Param([Parameter(ValueFromPipeline)]
-[string]$pathToFile, [string]$extension 
-)
+Function CalcFilesSize {
+    Param([Parameter(ValueFromPipeline)]
+        [string]$pathToFile, [string]$extension 
+    )
 
-$pathFiles = Join-Path -Path $pathToFile -ChildPath $extension
+    $pathFiles = Join-Path -Path $pathToFile -ChildPath $extension
 
 
-$getAllFfiles = Get-ChildItem -Path $pathFiles -Recurse
+    $getAllFfiles = Get-ChildItem -Path $pathFiles -Recurse
 
-$vhdxTotalSize = $null
+    $vhdxTotalSize = $null
 
-$getAllFfiles.ForEach({
-    $vhdxTotalSize += $_.Length
-})
+    $getAllFfiles.ForEach({
+            $vhdxTotalSize += $_.Length
+        })
 
-[int]$result = $vhdxTotalSize | ForEach-Object {[Math]::Round(($_ / 1GB),2)}
+    [int]$result = $vhdxTotalSize | ForEach-Object { [Math]::Round(($_ / 1GB), 2) }
 
-return $result
+    return $result
 
 }
 #CalcFilesSize -pathToFile "\\srvhv10\v$\VMS\SERVIDORES" -extension "*.vhd*"
@@ -114,11 +112,65 @@ Function DeleteOlderFiles {
         [string]$PathFilesToDelete, [int]$daysBack
     )
 
- $result = Get-ChildItem  -Path $PathFilesToDelete -Directory | where {$_.CreationTime -le $(get-date).AddDays(-$daysBack)} | Remove-Item -recurse  
- $result
- #Write-host($result)
+    $result = Get-ChildItem  -Path $PathFilesToDelete -Directory | where { $_.CreationTime -le $(get-date).AddDays(-$daysBack) } | Remove-Item -recurse  
+    $result
+    #Write-host($result)
     
 }
 Export-ModuleMember -Function DeleteOlderFiles
 #DeleteOlderFiles -PathFilesToDelete $DriveA
 #endregion
+
+#region BkpUpdate
+Function Update {
+    $date = Get-Date -Format "dd_MM_yyyy"
+    $dateMs = ([TimeSpan] (Get-Date).ToShortTimeString()).TotalMilliseconds
+
+    $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://raw.githubusercontent.com/marcusvd/PowerShell/main/Backup/SingleDisk/VMS.ps1')
+    $pathToSaveFile = $env:HOMEPATH + '\Downloads'
+    foreach ($url in $urlFilesToDownload) {
+        Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
+    } 
+
+    $pathToSaveFile = $env:HOMEPATH + '\Downloads'
+    $LastUpdatedFiles = @("$($pathToSaveFile)\BackupModule.psm1", "$($pathToSaveFile)\VMS.ps1")
+    $hashUpdateFile = @()
+    #
+    $pathBaseCurrentFiles = "c:\util"
+    $currentFiles = @("$($pathBaseCurrentFiles)\BackupModule.psm1", "$($pathBaseCurrentFiles)\VMS.ps1")
+    $hashCurrentFile = @()
+
+    foreach ($updated in $LastUpdatedFiles) {
+        if (Test-Path($updated)) {
+            $hashUpdateFile += Get-FileHash -Path $updated -Algorithm SHA256
+        }
+    }
+
+    foreach ($current in $currentFiles) {
+        if (Test-Path($current)) {
+            $hashCurrentFile += Get-FileHash -Path $current -Algorithm SHA256
+        }
+    }
+
+    foreach ($fUpdatePath in $hashUpdateFile) {
+        foreach ($fCurrentPath in $hashCurrentFile) {
+        
+            if ($fCurrentPath.Path.split('\')[$fCurrentPath.Path.split('\').Length - 1] -eq $fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1]) {
+           
+                if ($fUpdatePath.Hash -eq $fCurrentPath.Hash) {
+                    Write-Host("Is up to Date!")
+                }
+                else {
+                    Write-Host('Updating...')
+                    Rename-Item -Path "$($pathBaseCurrentFiles)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])" -NewName "$($($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1]))-$($date)-$($dateMs)"
+                    Copy-Item -Path "$($pathToSaveFile)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])" -Destination "$($pathBaseCurrentFiles)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])"
+                }
+            }
+        }
+    }
+
+}
+Export-ModuleMember -Function Update
+#Update-
+#endregion
+
