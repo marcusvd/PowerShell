@@ -121,6 +121,18 @@ Export-ModuleMember -Function DeleteOlderFiles
 #DeleteOlderFiles -PathFilesToDelete $DriveA
 #endregion
 
+#region DownloadBackupFiles
+Function DownloadBackupFiles {
+    $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://raw.githubusercontent.com/marcusvd/PowerShell/main/Backup/SingleDisk/VMS.ps1')
+    $pathToSaveFile = "C:\Util"
+    foreach ($url in $urlFilesToDownload) {
+        Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
+    } 
+
+}
+Export-ModuleMember -Function DownloadBackupFiles
+#Update
+#endregion
 #region BkpUpdate
 Function Update {
     $date = Get-Date -Format "dd_MM_yyyy"
@@ -171,6 +183,6 @@ Function Update {
 
 }
 Export-ModuleMember -Function Update
-#Update-
+#Update
 #endregion
 

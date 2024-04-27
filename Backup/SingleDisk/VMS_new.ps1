@@ -33,10 +33,10 @@ foreach ($fUpdatePath in $hashUpdateFile) {
         if ($fCurrentPath.Path.split('\')[$fCurrentPath.Path.split('\').Length - 1] -eq $fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1]) {
            
             if ($fUpdatePath.Hash -eq $fCurrentPath.Hash) {
-                Write-Host("Hash e igual")
+                Write-Host("Is up to Date!")
             }
             else {
-                Write-Host('Hash nao e igual')
+                Write-Host('Updating...')
                 Rename-Item -Path "$($pathBaseCurrentFiles)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])" -NewName "$($($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1]))-$($date)-$($dateMs)"
                 Copy-Item -Path "$($pathToSaveFile)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])" -Destination "$($pathBaseCurrentFiles)\$($fUpdatePath.Path.split('\')[$fUpdatePath.Path.split('\').Length - 1])"
             }
