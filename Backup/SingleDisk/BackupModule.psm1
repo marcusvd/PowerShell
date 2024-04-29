@@ -123,10 +123,13 @@ Export-ModuleMember -Function DeleteOlderFiles
 
 #region DownloadBackupFiles
 Function DownloadBackupFiles {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    #$wc = New-Object System.Net.WebClient
     $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://raw.githubusercontent.com/marcusvd/PowerShell/main/Backup/SingleDisk/VMS.ps1')
     $pathToSaveFile = "C:\Util"
     foreach ($url in $urlFilesToDownload) {
-        Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
+        Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])" -ErrorAction SilentlyContinue 
+        #$wc.DownloadFile($urlFilesToDownload, "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])")
     } 
 
 }
@@ -135,13 +138,15 @@ Export-ModuleMember -Function DownloadBackupFiles
 #endregion
 #region BkpUpdate
 Function Update {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $date = Get-Date -Format "dd_MM_yyyy"
     $dateMs = ([TimeSpan] (Get-Date).ToShortTimeString()).TotalMilliseconds
-
+    #$wc = New-Object System.Net.WebClient
     $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://raw.githubusercontent.com/marcusvd/PowerShell/main/Backup/SingleDisk/VMS.ps1')
     $pathToSaveFile = $env:HOMEPATH + '\Downloads'
     foreach ($url in $urlFilesToDownload) {
         Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
+        #$wc.DownloadFile($url, "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])")
     } 
 
     $pathToSaveFile = $env:HOMEPATH + '\Downloads'
