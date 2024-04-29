@@ -24,14 +24,11 @@ Function TotalFreeSpaceLocalDriveToBackup {
     return CheckFreeSpaceDisk -DriverLetter $DriveToBackupIsFreeSpace
 }
 
-
-
 if (!(VmsCheckExists -paths $VmsPathsSource)) {
     SendMail($MsgSource)
     #Shutdown
     Invoke-Command { shutdown -s -f -t 120 }
 }
-
 
 Function CheckDestiny {
     if (!(VmsCheckExists -paths $VmsPathsDestiny)) {
@@ -40,8 +37,6 @@ Function CheckDestiny {
         Invoke-Command { shutdown -s -f -t 120 }
     }
 }
-
-
 
 [int]$DriveToBackup = TotalFreeSpaceLocalDriveToBackup
 [int]$FilesForBack = TotalFilesToBackup
@@ -54,9 +49,12 @@ While ($DriveToBackup -lt $FilesForBack) {
     Write-host($daysBack)
 }
 
-
 BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 
 CheckDestiny
 
-Invoke-Command { shutdown -s -f -t 120 }
+Write-Host('UPDATED - SUCCESSFULL...')
+
+Pause
+
+#Invoke-Command { shutdown -s -f -t 120 }
