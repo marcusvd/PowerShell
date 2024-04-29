@@ -4,9 +4,9 @@ $headerJson = Get-Content -Path "C:\Util\BackupHeader.json" -Raw
 $powerShellObj = $headerJson | ConvertFrom-Json
 
 Import-Module -Name $powerShellObj.Module -Force
-#$Date = $powerShellObj.Date
+$Date = Get-Date -Format 'dd_MM_yyyy'
 $VmsPathsSource = $powerShellObj.VmsPathsSource
-$VmsPathsDestiny = $powerShellObj.VmsPathsDestiny
+$VmsPathsDestiny = "$($powerShellObj.VmsPathsDestinyFirst)\$($Date)$($powerShellObj.VmsPathsDestinySecond)"
 $PathVmsToBackupCalculateAmount = $powerShellObj.PathVmsToBackupCalculateAmount
 $ExtensionFilesToCalculateAmount = $powerShellObj.ExtensionFilesToCalculateAmount
 $DriveToBackupIsFreeSpace = $powerShellObj.DriveToBackupIsFreeSpace

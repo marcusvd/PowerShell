@@ -1,26 +1,24 @@
 {
     "Module": "c:\\Util\\BackupModule.psm1",
-    "Date": "Get-Date -Format 'dd_MM_yyyy'",
     "VmsPathsSource": [
         "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVAD01\\SRVAD01.vhdx",
         "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVFL01\\SRVFL01.vhdx",
         "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVFL01\\DADOS.vhdx",
         "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVWDS01\\IMAGES.vhdx",
-        "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVWDS01\\SRVWDS01.vhdx"
+        "\\\\srvhv10\\v$\\VMS\\SERVIDORES\\SRVWDS01\\SRVWDS01.vhdx",
+        "\\\\srvhv10\\v$\\VMS\\Workstation\\administrative.VHDX"
     ],
-    "VmsPathsDestinyFirst": [
-        "C:\\Util\\BACKUP\\",
-        "C:\\Util\\BACKUP\\",
-        "C:\\Util\\BACKUP\\",
-        "C:\\Util\\BACKUP\\"
+    "VmsPathsDestinyBase": "C:\\Util\\BACKUP\\",
+
+    "VmsPathsDestiny": [
+        "\\SERVIDORES\\SRVAD01\\SRVAD01.VHDX",
+        "\\SERVIDORES\\SRVFL01\\SRVFL01.vhdx",
+        "\\SERVIDORES\\SRVFL01\\DADOS.vhdx",
+        "\\SERVIDORES\\SRVWDS01\\IMAGES.vhdx",
+        "\\SERVIDORES\\SRVWDS01\\SRVWDS01.vhdx",
+        "\\Workstation\\administrative.VHDX"
     ],
-    "VmsPathsDestinySecond": [
-        "\\SRVAD01\\SRVAD01.VHDX",
-        "\\SRVFL01\\SRVFL01.vhdx",
-        "\\SRVFL01\\DADOS.vhdx",
-        "\\SRVSH01\\SRVSH01.vhdx"
-    ],
-    "PathVmsToBackupCalculateAmount": "\\\\srvhv01\\v$\\VMS\\",
+    "PathVmsToBackupCalculateAmount": "\\\\srvhv10\\v$\\VMS\\",
     "ExtensionFilesToCalculateAmount": "*.vhd*",
     "DriveToBackupIsFreeSpace": "c:",
     "PathToBackupFiles": "c:\\Util\\BACKUP",
