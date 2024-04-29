@@ -62,8 +62,4 @@ BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 
 CheckDestiny
 
-Write-Host('TOPZERAAAAAA - SUCCESSFULL...')
-
-Pause
-
 Invoke-Command { shutdown -s -f -t 120 }
