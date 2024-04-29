@@ -1,7 +1,6 @@
-
-Import-Module -Name $powerShellObj.Module -Force
 $headerJson = Get-Content -Path "C:\Util\BackupHeader.json" -Raw
 $powerShellObj = $headerJson | ConvertFrom-Json
+Import-Module -Name $powerShellObj.Module -Force
 
 $Date = Get-Date -Format 'dd_MM_yyyy'
 $VmsPathsSource = $powerShellObj.VmsPathsSource
@@ -62,5 +61,9 @@ While ($DriveToBackup -lt $FilesForBack) {
 BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 
 CheckDestiny
+
+Write-Host('UPDATED - SUCCESSFULL...')
+
+Pause
 
 Invoke-Command { shutdown -s -f -t 120 }
