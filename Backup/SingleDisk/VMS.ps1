@@ -1,12 +1,12 @@
 
+Import-Module -Name $powerShellObj.Module -Force
 $headerJson = Get-Content -Path "C:\Util\BackupHeader.json" -Raw
-
 $powerShellObj = $headerJson | ConvertFrom-Json
 
-Import-Module -Name $powerShellObj.Module -Force
 $Date = Get-Date -Format 'dd_MM_yyyy'
 $VmsPathsSource = $powerShellObj.VmsPathsSource
-$VmsPathsDestiny = "$($powerShellObj.VmsPathsDestinyFirst)\$($Date)$($powerShellObj.VmsPathsDestinySecond)"
+$VmsPathsDestinyBase = $powerShellObj.VmsPathsDestinyBase
+$VmsPathsDestiny = $powerShellObj.VmsPathsDestiny
 $PathVmsToBackupCalculateAmount = $powerShellObj.PathVmsToBackupCalculateAmount
 $ExtensionFilesToCalculateAmount = $powerShellObj.ExtensionFilesToCalculateAmount
 $DriveToBackupIsFreeSpace = $powerShellObj.DriveToBackupIsFreeSpace
@@ -26,17 +26,26 @@ Function TotalFreeSpaceLocalDriveToBackup {
 
 if (!(VmsCheckExists -paths $VmsPathsSource)) {
     SendMail($MsgSource)
-    #Shutdown
+    #Shutdown 
     Invoke-Command { shutdown -s -f -t 120 }
 }
 
+$fullDestinyPathToTest = @()
+
+foreach ($destiny in $VmsPathsDestiny) {
+    $fullDestinyPathToTest +=  "$($VmsPathsDestinyBase)$($Date)$($destiny)"
+}
+
+
 Function CheckDestiny {
-    if (!(VmsCheckExists -paths $VmsPathsDestiny)) {
+    if (!(VmsCheckExists -paths $fullDestinyPathToTest)) {
         SendMail($MsgDestiny)
         #Shutdown
         Invoke-Command { shutdown -s -f -t 120 }
     }
 }
+
+
 
 [int]$DriveToBackup = TotalFreeSpaceLocalDriveToBackup
 [int]$FilesForBack = TotalFilesToBackup
@@ -49,12 +58,9 @@ While ($DriveToBackup -lt $FilesForBack) {
     Write-host($daysBack)
 }
 
+
 BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 
 CheckDestiny
 
-Write-Host('UPDATED - SUCCESSFULL...')
-
-Pause
-
-#Invoke-Command { shutdown -s -f -t 120 }
+Invoke-Command { shutdown -s -f -t 120 }
