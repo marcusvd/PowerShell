@@ -62,7 +62,7 @@ BackUpCopy -target $PathVmsToBackupCalculateAmount -destiny $PathToBackupFiles
 
 CheckDestiny
 
-Write-Host('UPDATED - SUCCESSFULL...')
+Write-Host('TOPZERAAAAAA - SUCCESSFULL...')
 
 Pause
 
