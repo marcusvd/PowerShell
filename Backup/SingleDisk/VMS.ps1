@@ -14,7 +14,8 @@ $PathToDelete = $powerShellObj.PathToDelete
 $MsgSource = $powerShellObj.MsgSource
 $MsgDestiny = $powerShellObj.MsgDestiny
 $daysBack = $powerShellObj.daysBack
-$MsgSuccess = $powerShellObj.MsgSuccess
+#$MsgSuccess = $powerShellObj.MsgSuccess
+#$Company = $powerShellObj.Company
 
 Function TotalFilesToBackup {
     return CalcFilesSize -pathToFile $PathVmsToBackupCalculateAmount -extension $ExtensionFilesToCalculateAmount
@@ -44,9 +45,12 @@ Function CheckDestiny {
         Invoke-Command { shutdown -s -f -t 120 }
     }
     else {
+        $domainName = (Get-WmiObject Win32_ComputerSystem).Domain
+        $msg = "Success"
         #all Wednesday
-        if ((Get-Date).DayOfWeek -eq "Wednesday") {
-            SendMail($MsgSuccess)
+        if ((Get-Date).DayOfWeek -eq "Tuesday") {
+        # if ((Get-Date).DayOfWeek -eq "Wednesday") {
+            SendMail("$($domainName)", $msg)
         }
     }
 }
