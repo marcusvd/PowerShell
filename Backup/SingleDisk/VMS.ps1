@@ -48,7 +48,7 @@ Function CheckDestiny {
         $domainName = (Get-WmiObject Win32_ComputerSystem).Domain
         $msg = "Success"
         #all Wednesday
-        if ((Get-Date).DayOfWeek -eq "Tuesday") {
+        if ((Get-Date).DayOfWeek -eq "Tuesday" -or (Get-Date).DayOfWeek -eq "Wednesday") {
         # if ((Get-Date).DayOfWeek -eq "Wednesday") {
             SendMail("$($domainName)", $msg)
         }
