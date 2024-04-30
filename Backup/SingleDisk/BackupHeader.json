@@ -18,12 +18,14 @@
         "\\SERVIDORES\\SRVWDS01\\SRVWDS01.vhdx",
         "\\Workstation\\administrative.VHDX"
     ],
-    "PathVmsToBackupCalculateAmount": "\\\\srvhv10\\v$\\VMS\\",
+    "PathVmsToBackupCalculateAmount": "\\\\srvhv01\\v$\\VMS\\",
     "ExtensionFilesToCalculateAmount": "*.vhd*",
     "DriveToBackupIsFreeSpace": "c:",
     "PathToBackupFiles": "c:\\Util\\BACKUP",
     "PathToDelete": "c:\\Util\\BACKUP\\",
     "MsgSource": "VMS--(SOURCE-FILES)--(NO-STOP-TI)-- Backup (FAIL) [----NO STOP-TI----]",
     "MsgDestiny": "VMS--(DESTINY-FILES)--(NO-STOP-TI)-- Backup (FAIL) [----NO STOP-TI----]",
+    "MsgSuccess": "(Success)--VMS--(NO-STOP-TI)--",
+
     "daysBack": 8
 }

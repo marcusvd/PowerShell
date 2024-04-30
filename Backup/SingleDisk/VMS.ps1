@@ -14,6 +14,7 @@ $PathToDelete = $powerShellObj.PathToDelete
 $MsgSource = $powerShellObj.MsgSource
 $MsgDestiny = $powerShellObj.MsgDestiny
 $daysBack = $powerShellObj.daysBack
+$MsgSuccess = $powerShellObj.MsgSuccess
 
 Function TotalFilesToBackup {
     return CalcFilesSize -pathToFile $PathVmsToBackupCalculateAmount -extension $ExtensionFilesToCalculateAmount
@@ -32,7 +33,7 @@ if (!(VmsCheckExists -paths $VmsPathsSource)) {
 $fullDestinyPathToTest = @()
 
 foreach ($destiny in $VmsPathsDestiny) {
-    $fullDestinyPathToTest +=  "$($VmsPathsDestinyBase)$($Date)$($destiny)"
+    $fullDestinyPathToTest += "$($VmsPathsDestinyBase)$($Date)$($destiny)"
 }
 
 
@@ -41,6 +42,12 @@ Function CheckDestiny {
         SendMail($MsgDestiny)
         #Shutdown
         Invoke-Command { shutdown -s -f -t 120 }
+    }
+    else {
+        #all Wednesday
+        if ((Get-Date).DayOfWeek -eq "Wednesday") {
+            SendMail($MsgSuccess)
+        }
     }
 }
 
