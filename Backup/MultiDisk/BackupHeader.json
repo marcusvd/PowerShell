@@ -1,0 +1,30 @@
+{
+    "Module": "c:\\Util\\BackupModule.psm1",
+    "user": "lvsa\\backup",
+    "password": "sMtp2020$&",
+    "VmsPathsSource": [
+        "\\\\srvhv01\\v$\\vms\\SRVAD01\\SRVAD01.vhdx",
+        "\\\\srvhv01\\v$\\vms\\SRVCP02\\SRVCP02.vhdx",
+        "\\\\srvhv01\\v$\\vms\\SRVFL01\\arquivados.vhdx",
+        "\\\\srvhv01\\v$\\vms\\SRVFL02\\SRVFL02.vhdx",
+        "\\\\srvhv01\\v$\\vms\\SRVFL02\\DADOS.vhdx"
+    ],
+    "VmsPathsDestinyBase": [
+        "C:\\Util\\BACKUP\\", "D:\\UTIL\\BACKUP\\"
+    ],
+    "VmsPathsDestiny": [
+        "\\SRVAD01\\SRVAD01.vhdx",
+        "\\SRVCP02\\SRVCP02.vhdx",
+        "\\SRVFL01\\arquivados.vhdx",
+        "\\SRVFL02\\SRVFL02.vhdx",
+        "\\SRVFL02\\DADOS.vhdx"
+    ],
+    "PathVmsToBackupCalculateAmount": "\\\\srvhv10\\v$\\VMS\\",
+    "ExtensionFilesToCalculateAmount": "*.vhd*",
+    "DriveToBackupIsFreeSpace": [
+        "c:", "D:"
+    ],
+    "MsgSource": "VMS--(SOURCE-FILES)--(LVSA)-- Backup (FAIL) [----NO STOP-TI----]",
+    "MsgDestiny": "VMS--(DESTINY-FILES)--(LVSA)-- Backup (FAIL) [----NO STOP-TI----]",
+    "daysBack": 8
+}
