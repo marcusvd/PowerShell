@@ -1,5 +1,4 @@
 ﻿
-pause
 $headerJson = Get-Content -Path "C:\Util\BackupHeader.json" -Raw
 $powerShellObj = $headerJson | ConvertFrom-Json
 Import-Module -Name $powerShellObj.Module -Force
