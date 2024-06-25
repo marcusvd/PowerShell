@@ -187,7 +187,7 @@ Function Update {
     }
 
 }
-
+Export-ModuleMember -Function Update
 Function UpdateMultDisk {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $date = Get-Date -Format "dd_MM_yyyy"
