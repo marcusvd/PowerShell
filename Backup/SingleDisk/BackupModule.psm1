@@ -244,16 +244,17 @@ Function HostBackupUpdate {
     $dateMs = ([TimeSpan] (Get-Date).ToShortTimeString()).TotalMilliseconds
     $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://github.com/marcusvd/PowerShell/raw/main/Backup/HostMachine/vm_bkp.ps1')
     $pathToSaveFile = $env:HOMEPATH + '\Downloads'
+    
     foreach ($url in $urlFilesToDownload) {
         Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
     } 
 
     $pathToSaveFile = $env:HOMEPATH + '\Downloads'
-    $LastUpdatedFiles = @("$($pathToSaveFile)\BackupModule.psm1", "$($pathToSaveFile)\VMS.ps1")
+    $LastUpdatedFiles = @("$($pathToSaveFile)\BackupModule.psm1", "$($pathToSaveFile)\vm_bkp.ps1")
     $hashUpdateFile = @()
     #
-    $pathBaseCurrentFiles = "c:\util"
-    $currentFiles = @("$($pathBaseCurrentFiles)\BackupModule.psm1", "$($pathBaseCurrentFiles)\VMS.ps1")
+    $pathBaseCurrentFiles = "C:\Util\Scripts"
+    $currentFiles = @("$($pathBaseCurrentFiles)\BackupModule.psm1", "$($pathBaseCurrentFiles)\vm_bkp.ps1")
     $hashCurrentFile = @()
 
     foreach ($updated in $LastUpdatedFiles) {
@@ -286,7 +287,7 @@ Function HostBackupUpdate {
     }
 
 }
-Export-ModuleMember -Function Update
+Export-ModuleMember -Function HostBackupUpdate
 
 #UpdateMultDisk
 #endregion
