@@ -242,7 +242,7 @@ Function HostBackupUpdate {
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $date = Get-Date -Format "dd_MM_yyyy"
     $dateMs = ([TimeSpan] (Get-Date).ToShortTimeString()).TotalMilliseconds
-    $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://raw.githubusercontent.com/marcusvd/PowerShell/main/Backup/SingleDisk/VMS.ps1')
+    $urlFilesToDownload = @('https://github.com/marcusvd/PowerShell/raw/main/Backup/SingleDisk/BackupModule.psm1', 'https://github.com/marcusvd/PowerShell/raw/main/Backup/HostMachine/vm_bkp.ps1')
     $pathToSaveFile = $env:HOMEPATH + '\Downloads'
     foreach ($url in $urlFilesToDownload) {
         Invoke-WebRequest -Uri $url -OutFile "$($pathToSaveFile)\$($url.split('/')[$url.split('/').Length - 1])"  -ErrorAction SilentlyContinue 
